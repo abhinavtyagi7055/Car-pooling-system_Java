@@ -1,0 +1,25 @@
+package Driver;
+interface DI
+{
+	new_ride();
+	cancel();
+}
+
+class ride implements DI
+{
+	bool aval = TRUE;
+	new_ride(Int s_num, Int d_num , Int p_time )
+	{
+		if aval = TRUE
+		{
+			/*calculate destination with wieghted TSP*/
+			return eta,fare;
+			aval = false;
+		}
+	}
+	ride_cancel()
+	{
+		aval = TRUE;
+	}
+}
+
