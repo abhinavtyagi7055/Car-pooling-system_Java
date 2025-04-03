@@ -1,0 +1,10 @@
+package Cust;
+interface CI
+{
+	check_aval();
+	raise_req();
+	cancel_req();
+	
+}
+
+	
