@@ -1,0 +1,85 @@
+package Driver;
+
+interface RideManagement
+{
+    void new_ride(int s_num, int d_num);
+    void cancel_ride();
+}
+
+interface VehicleManagement
+{
+    void add_vehicle();
+    void remove_vehicle();
+}
+
+class Driver
+{
+    String name;
+    String driver_id;
+    int years_of_experience;
+    long contact_number;
+    String driver_address;
+    List<Ride> ride_history;
+
+    void display_driver_details()
+    {
+        System.out.println(name + " " + driver_id + " " + years_of_experience + " " + contact_number);
+    }
+}
+
+class Ride implements RideManagement
+{
+    boolean driver_available = true;
+    int fare;
+    int eta;
+
+    void new_ride(int s_num, int d_num) /* Locations are assigned numeric values; users enter the number to select pickup and drop points */
+    {
+        if (driver_available == true)
+        {
+            System.out.println("Ride booked from " + s_num + " to " + d_num);
+            driver_available = false;
+        }
+        else
+        {
+            System.out.println("Driver not available");
+        }   
+    }
+
+    void cancel_ride()
+    {
+        System.out.println("Ride canceled");
+        driver_available = true;
+    }
+}
+
+class VehicleStatus implements VehicleManagement
+{
+    List<String> vehicles;
+
+    void add_vehicle()
+    {
+        // Prompt user for vehicle_name, vehicle_type, vehicle_capacity
+        // Add vehicle details to list
+        System.out.println("Vehicle added");
+    }
+
+    void remove_vehicle()
+    {
+        if (vehicles.isEmpty())
+        {
+            System.out.println("No vehicles to remove");
+            return;
+        }
+        // Prompt user for vehicle index
+        // If index is valid
+        // Remove vehicle from list
+        System.out.println("Vehicle removed");
+    }
+}
+
+class Ride_History
+{}
+
+class Transaction
+{}

@@ -1,0 +1,40 @@
+package Customer;
+
+interface RideRequest
+{
+    void request_ride();
+    void cancel_ride();
+}
+
+class Customer
+{
+    String customer_name;
+    String customer_id;
+    long customer_contact_number;
+
+    void display_customer_details()
+    {
+        System.out.println(customer_name + " " + customer_id + " " + customer_contact_number);
+    }
+}
+
+class Ride implements RideRequest
+{
+    void request_ride()
+    {
+        input s_num; // source numeric value
+        input d_num; // destination numeric value
+        System.out.println("Ride requested from pickup to drop");
+    }
+
+    void cancel_ride()
+    {
+        System.out.println("Ride canceled");
+    }
+}
+
+class Payment
+{}
+
+class Review
+{}
