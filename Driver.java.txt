@@ -1,25 +1,40 @@
 package Driver;
 interface DI
 {
-	new_ride();
-	cancel();
+	void newRide(int s_num, int d_num ,int p_time);
+	void cancel();
 }
 
 class ride implements DI
 {
-	bool aval = TRUE;
-	new_ride(Int s_num, Int d_num , Int p_time )
+	boolean aval = TRUE;
+	newRide(Int s_num, Int d_num , Int p_time );
 	{
-		if aval = TRUE
+		if aval = TRUE;
+		int fare;
+		int eta;
+		if (driver_available == true)
 		{
-			/*calculate destination with wieghted TSP*/
-			return eta,fare;
-			aval = false;
+
+			/*use TSP to calculate the best driver according to the pickup point*/
+
+			System.out.println(name + "is coming to pick you up in " + eta );
+			aval = FALSE;
 		}
+		else
+       		{
+         		System.out.println("Driver not available");
+		}  
+
+		/*calculate destination with wieghted TSP*/
+
+		int[] r = new int[3]
+		r[0] = eta;r[1] = fare;r[2] = d_no;
+		return r;
+		aval = false;
 	}
 	ride_cancel()
 	{
 		aval = TRUE;
 	}
 }
-

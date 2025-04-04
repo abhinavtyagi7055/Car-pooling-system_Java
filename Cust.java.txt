@@ -1,10 +1,38 @@
 package Cust;
+import java.util.*;
+import Driver.*;
 interface CI
 {
-	check_aval();
-	raise_req();
-	cancel_req();
+	void raise_req();
+	void cancel_req();
 	
 }
+
+class Customer
+{
+	String custN;
+	String cistId;
+	long custContactNo;
+	
+	void dispCustDetail()
+	{
+		System.out.println(customer_name + " " + customer_id + " " + customer_contact_number);
+	}
+}
+
+class Ride implements RideRequest
+{
+	void raise_req();
+	{
+		input s_num;
+		input d_num;
+		ride r = new ride();
+		int[] R = r.newRide(s_num,d_num,p_time);
+		eta = R[0];
+		fare = R[1];
+		PRINT THE ETA AND FARE AND DRIVER NAME
+	}
+}
+		
 
 	
