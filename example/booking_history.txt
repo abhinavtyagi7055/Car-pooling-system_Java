@@ -1,0 +1,1 @@
+Pickup: Bidholi, Drop: Train Station, Distance: 40 km, Fare: ₹480, ETA: 60 min
