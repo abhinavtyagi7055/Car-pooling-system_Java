@@ -19,8 +19,18 @@ public class Booking
         	String dropLoc = p.getDropLocation();
 
         	List<String> assignedDriver = Driver.assignDriver(pickupLoc);
-		String driverName = (assignedDriver != null && !assignedDriver.isEmpty()) ? assignedDriver.get(1) : "No driver available";
-		String driverID = (assignedDriver != null && !assignedDriver.isEmpty()) ? assignedDriver.get(0) : null;
+		String driverName = "No driver available";
+		String driverID = null;
+
+		if (assignedDriver != null && assignedDriver.size() >= 2) 
+		{
+    			driverID = assignedDriver.get(0);
+   			driverName = assignedDriver.get(1);
+		} 
+		else 
+		{
+    			System.out.println("No driver assigned. Check if driver exists at pickup location.");
+		}
 
 
         	if (driverID != null) 

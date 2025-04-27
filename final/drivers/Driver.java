@@ -55,41 +55,29 @@ public class Driver
 
         	return driverData;
     	}
-
-    	public static void updateDriverLocation(String driverID, String newLocation) {
-        	try 
+	public static void updateDriverLocation(String driverID, String newLocation) 
+	{
+    		try (Connection conn = DatabaseConnection.getConnection()) 
 		{
-            		File file = new File("drivers.txt");
-            		File tempFile = new File("drivers_temp.txt");
-
-            		BufferedReader reader = new BufferedReader(new FileReader(file));
-            		BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-            		String line;
-            		while ((line = reader.readLine()) != null) 
+        		String sql = "UPDATE drivers SET location = ? WHERE id = ?";
+        		PreparedStatement stmt = conn.prepareStatement(sql);
+        		stmt.setString(1, newLocation);
+        		stmt.setString(2, driverID);
+        		int rowsAffected = stmt.executeUpdate();
+        		if (rowsAffected > 0) 
 			{
-                		String[] parts = line.split(",");
-                		if (parts.length >= 3 && parts[0].equals(driverID)) 
-				{
-                    			writer.write(parts[0] + "," + parts[1] + "," + newLocation + "\n");
-                		} 
-				else 
-				{
-                    			writer.write(line + "\n");
-                		}
-            		}
-
-            		writer.close();
-            		reader.close();
-
-            		file.delete();
-            		tempFile.renameTo(file);
-        	} 
-		catch (IOException e) 
+            			System.out.println("Driver location updated successfully in database!");
+        		} 
+			else 
+			{
+            			System.out.println("Driver location update failed! Check driver ID.");
+        		}
+    		} 
+		catch (SQLException e) 
 		{
-            		System.out.println("Error updating driver location.");
-        	}
-    	}
+        		e.printStackTrace();
+    		}
+	}
 
     	private static int getLocationIndex(String locName) 
 	{

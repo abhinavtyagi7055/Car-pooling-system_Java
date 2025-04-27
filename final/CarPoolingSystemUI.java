@@ -90,15 +90,17 @@ public class CarPoolingSystemUI {
 		int fare = FareCalculator.calculateFare(distance);
 
 		List<String> assignedDriver = Driver.assignDriver(pickup);
-		if (assignedDriver == null) {
+		if (assignedDriver == null || assignedDriver.isEmpty()) {
     			JOptionPane.showMessageDialog(frame, "No driver available at pickup location currently!");
     			return;
 		}
 
-		String driverId = assignedDriver.get(0);
+
+		String driverId = assignedDriver.get(0);		
 		String driverName = assignedDriver.get(1);
 
-		Booking.bookRide(pickup, drop, distance, fare, 15, Integer.parseInt(driverId));  // 15 minutes is the ETA
+		Booking.bookRide(pickup, drop, distance, fare, 15, Integer.parseInt(driverId));
+		Driver.updateDriverLocation(driverId, drop);
 
 		JOptionPane.showMessageDialog(frame,"Ride Booked!\nDistance: " + distance + " km\nFare: ₹" + fare +"\nAssigned Driver: " + driverName + " (" + driverId + ")");
 	});
