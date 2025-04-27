@@ -2,3 +2,4 @@ Pickup: Bidholi, Drop: Train Station, Distance: 40 km, Fare: ₹480, ETA: 60 min
 Pickup: Bidholi, Drop: Train Station, Distance: 40 km, Fare: ₹480, ETA: 60 min
 Pickup: Bidholi, Drop: Train Station, Distance: 40 km, Fare: ₹480, ETA: 60 min, Driver: Abhinav
 Pickup: Bidholi, Drop: Bus Stop, Distance: 27 km, Fare: ₹324, ETA: 40 min, Driver: Abhinav
+Pickup: Bidholi, Drop: Train Station, Distance: 40 km, Fare: ₹480, ETA: 60 min, Driver: Abhinav

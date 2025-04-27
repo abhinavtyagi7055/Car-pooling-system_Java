@@ -2,123 +2,67 @@ package drivers;
 
 import java.io.*;
 import java.util.*;
+import database.DatabaseConnection;
+import java.sql.*;
 
 public class Driver 
 {
     	static String[] locations = {"Bidholi", "Prem Nagar", "Clock Tower", "Bus Stop", "Train Station"};
 
-    	public static void registerDriver() 
+    	public static void registerDriver(String name, String location) 
 	{
-        	Scanner s = new Scanner(System.in);
-
-        	System.out.println("Enter your name:");
-        	String name = s.nextLine();
-
-        	System.out.println("Select your current location:");
-        	for (int i = 0; i < locations.length; i++) 
+        	try (Connection conn = DatabaseConnection.getConnection()) 
 		{
-            		System.out.println((i + 1) + ". " + locations[i]);
-        	}
+            		String sql = "INSERT INTO drivers (name, location) VALUES (?, ?)";
+            		PreparedStatement stmt = conn.prepareStatement(sql);
+            		stmt.setString(1, name);
+            		stmt.setString(2, location);
 
-        	int locIndex = s.nextInt() - 1;
-        	String location = locations[locIndex];
-
-        	int driverID = getNextDriverID();
-
-        	try 
-		{
-            	FileWriter fw = new FileWriter("drivers.txt", true);
-            	fw.write(driverID + "," + name + "," + location + "\n");
-            	fw.close();
-            	System.out.println("Driver registered successfully. Your Driver ID is: " + driverID);
-		} 
-		catch (IOException e) 
-		{
-           		 System.out.println("Error saving driver info.");
-       	 	}
-   	}
-
-    	private static int getNextDriverID() 
-	{
-        	int id = 1;
-        	try 
-		{
-            		BufferedReader br = new BufferedReader(new FileReader("drivers.txt"));
-            		String line;
-            		while ((line = br.readLine()) != null) 
+            		int rowsAffected = stmt.executeUpdate();
+            		if (rowsAffected > 0) 
 			{
-                		String[] parts = line.split(",");
-                		if (parts.length > 0) 
-				{
-                    			int lastID = Integer.parseInt(parts[0]);
-                    			if (lastID >= id) 
-					{
-                        			id = lastID + 1;
-                    			}
-               			}
+                		System.out.println("Driver registered successfully!");
             		}
-            		br.close();
         	} 
-		catch (FileNotFoundException e) 
-		{
-        	} 
-		catch (IOException e) 
+		catch (SQLException e) 
 		{
             		e.printStackTrace();
         	}
-        	return id;
     	}
 
-	public static String[] assignDriver(String pickupLocation) 
+    	public static List<String> assignDriver(String pickupLocation) 
 	{
-    		String[] closestDriverData = null;
-    		int minDistance = Integer.MAX_VALUE;
+        	List<String> driverData = new ArrayList<>();
 
-    		try 
+        	try (Connection conn = DatabaseConnection.getConnection()) 
 		{
-        		BufferedReader br = new BufferedReader(new FileReader("drivers.txt"));
-        		String line;
-        		while ((line = br.readLine()) != null) 
+            		String sql = "SELECT id, name, location FROM drivers WHERE location = ?";
+            		PreparedStatement stmt = conn.prepareStatement(sql);
+            		stmt.setString(1, pickupLocation);
+
+            		ResultSet rs = stmt.executeQuery();
+            		if (rs.next()) 
 			{
-            			String[] parts = line.split(",");
-            			if (parts.length >= 3) 
-				{
-                			String driverID = parts[0];
-                			String name = parts[1];
-                			String location = parts[2];
-
-                			int dist = Math.abs(getLocationIndex(location) - getLocationIndex(pickupLocation));
-                			if (dist < minDistance) 
-					{
-                    				minDistance = dist;
-                    				closestDriverData = parts;                  
-					}
-            			}
-        		}
-        		br.close();
-
-        		if (closestDriverData != null) 
-			{
-            			System.out.println("Driver Found!");
-        		}
-
-    		} 
-		catch (IOException e) 
+                		driverData.add(rs.getString("id"));
+                		driverData.add(rs.getString("name"));
+                		driverData.add(rs.getString("location"));
+            		}
+        	} 
+		catch (SQLException e) 
 		{
-        		System.out.println("Error finding drivers.");
-    		}
-    		return closestDriverData;
-	}
+            		e.printStackTrace();
+        	}
 
+        	return driverData;
+    	}
 
-    	public static void updateDriverLocation(String driverID, String newLocation) 
-	{
+    	public static void updateDriverLocation(String driverID, String newLocation) {
         	try 
 		{
             		File file = new File("drivers.txt");
             		File tempFile = new File("drivers_temp.txt");
 
-           		BufferedReader reader = new BufferedReader(new FileReader(file));
+            		BufferedReader reader = new BufferedReader(new FileReader(file));
             		BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
             		String line;
@@ -151,11 +95,11 @@ public class Driver
 	{
         	for (int i = 0; i < locations.length; i++) 
 		{
-            		if (locations[i].equalsIgnoreCase(locName)) 
+           		if (locations[i].equalsIgnoreCase(locName)) 
 			{
                 		return i;
             		}
         	}
         	return -1;
-	}
+    	}
 }

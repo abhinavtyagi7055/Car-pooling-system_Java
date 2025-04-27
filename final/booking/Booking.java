@@ -1,7 +1,10 @@
 package booking;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.*;
+
+import java.io.*;
+import java.sql.*;
+import database.DatabaseConnection;
 import routes.Pick;
 import drivers.Driver;
 
@@ -15,9 +18,10 @@ public class Booking
         	String pickupLoc = p.getPickupLocation();
         	String dropLoc = p.getDropLocation();
 
-        	String[] assignedDriver = Driver.assignDriver(pickupLoc);
-        	String driverName = (assignedDriver != null) ? assignedDriver[1] : "No driver available";
-        	String driverID = (assignedDriver != null) ? assignedDriver[0] : null;
+        	List<String> assignedDriver = Driver.assignDriver(pickupLoc);
+		String driverName = (assignedDriver != null && !assignedDriver.isEmpty()) ? assignedDriver.get(1) : "No driver available";
+		String driverID = (assignedDriver != null && !assignedDriver.isEmpty()) ? assignedDriver.get(0) : null;
+
 
         	if (driverID != null) 
 		{
@@ -42,5 +46,28 @@ public class Booking
         	System.out.println("Driver Name : " + driverName);
 
         	return outp;
+    	}
+	public static void bookRide(String pickupLocation, String dropLocation, int distance, int fare, int eta, int driverId) 
+	{
+        	try (Connection conn = DatabaseConnection.getConnection()) 
+		{
+            		String sql = "INSERT INTO bookings (pickupLocation, dropLocation, distance, fare, eta, driver_id) VALUES (?, ?, ?, ?, ?, ?)";
+            		PreparedStatement stmt = conn.prepareStatement(sql);
+            		stmt.setString(1, pickupLocation);
+            		stmt.setString(2, dropLocation);
+            		stmt.setInt(3, distance);
+            		stmt.setInt(4, fare);
+            		stmt.setInt(5, eta);
+            		stmt.setInt(6, driverId);
+            		int rowsAffected = stmt.executeUpdate();
+            		if (rowsAffected > 0) 
+			{
+                		System.out.println("Booking successful!");
+            		}
+        	}
+		catch (SQLException e) 
+		{
+            		e.printStackTrace();
+        	}
     	}
 }

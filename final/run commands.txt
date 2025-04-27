@@ -1,0 +1,2 @@
+1. javac -cp ".;C:\Users\Acer\Downloads\mysql-connector-j-9.3.0\mysql-connector-j-9.3.0\mysql-connector-j-9.3.0.jar" booking/*.java drivers/*.java CarPoolingSystemUI.java DatabaseConnection.java
+2. java -cp ".;C:\Users\Acer\Downloads\mysql-connector-j-9.3.0\mysql-connector-j-9.3.0\mysql-connector-j-9.3.0.jar" CarPoolingSystemUI
