@@ -7,8 +7,10 @@ import java.sql.*;
 
 public class Driver 
 {
+	// List of driver location
     	static String[] locations = {"Bidholi", "Prem Nagar", "Clock Tower", "Bus Stop", "Train Station"};
 
+	// Registers a new driver in the database
     	public static void registerDriver(String name, String location) 
 	{
         	try (Connection conn = DatabaseConnection.getConnection()) 
@@ -30,6 +32,7 @@ public class Driver
         	}
     	}
 
+	// Assigns a driver available at the pickup location
     	public static List<String> assignDriver(String pickupLocation) 
 	{
         	List<String> driverData = new ArrayList<>();
@@ -55,6 +58,7 @@ public class Driver
 
         	return driverData;
     	}
+	// Updates the driver's location after a ride
 	public static void updateDriverLocation(String driverID, String newLocation) 
 	{
     		try (Connection conn = DatabaseConnection.getConnection()) 
