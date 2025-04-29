@@ -10,6 +10,7 @@ import drivers.Driver;
 
 public class Booking 
 {
+	// Books a ride and returns fare and ETA
     	public int[] book() 
 	{
         	Pick p = new Pick();
@@ -18,10 +19,12 @@ public class Booking
         	String pickupLoc = p.getPickupLocation();
         	String dropLoc = p.getDropLocation();
 
+		// Assign a driver
         	List<String> assignedDriver = Driver.assignDriver(pickupLoc);
 		String driverName = "No driver available";
 		String driverID = null;
 
+		// Update driver location
 		if (assignedDriver != null && assignedDriver.size() >= 2) 
 		{
     			driverID = assignedDriver.get(0);
@@ -42,6 +45,7 @@ public class Booking
         	int eta = FareCalculator.calculateETA(dist);
         	int[] outp = {fare, eta};
 
+		// Save to history file
         	try 
 		{
             		FileWriter writer = new FileWriter("booking_history.txt", true);
@@ -57,6 +61,8 @@ public class Booking
 
         	return outp;
     	}
+
+	// Saves booking to DB
 	public static void bookRide(String pickupLocation, String dropLocation, int distance, int fare, int eta, int driverId) 
 	{
         	try (Connection conn = DatabaseConnection.getConnection()) 
